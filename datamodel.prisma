@@ -1,0 +1,31 @@
+type User {
+  id: ID! @id
+  name: String! @unique
+  email: String @default(value: "test@test.me")
+  zipcode: String @default(value: "32443")
+  country: String @default(value: "UN")
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+  tweets: [Tweet!]!
+}
+ 
+type Tweet {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  title: String!
+  text: String!
+  published: Boolean!
+  owner: User! @relation(link: INLINE)
+  comments: [Comment!]
+  location: String
+}
+
+type Comment {
+  id: ID! @id
+  text: String!
+  createdAt: DateTime! @createdAt
+  author: User! @relation(link: INLINE)
+  tweet: Tweet! @relation(link: INLINE)
+}
+
