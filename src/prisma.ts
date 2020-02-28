@@ -6,13 +6,14 @@ const fMail = fName + '@pm.me';
 const fZip: string = faker.address.zipCode();
 const fText = faker.random.words();
 const fTitle = faker.random.word();
+const fLocation = faker.address.streetAddress();
 
 const prisma = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
   endpoint: 'http://localhost:4455'
 });
 
-const userCreateTweetAndListTweets = async (
+const userCreateTweetThenListTweets = async (
   uID: string | number,
   data: any
 ) => {
@@ -34,23 +35,62 @@ const userCreateTweetAndListTweets = async (
   //   '{ id title text }'
   // );
 
-  const test2 = await prisma.query
-    .user({ where: { id: uID } }, '{ id name tweets { title text createdAt }}')
+  const queryUser = await prisma.query
+    .user(
+      { where: { id: uID } },
+      '{ id name tweets { title text location createdAt }}'
+    )
     .then(data => {
       console.log(`user tweets: ${JSON.stringify(data, undefined, 2)}`);
     });
 
-  return test2;
+  return queryUser;
 };
 
-userCreateTweetAndListTweets('ck6xsqqwj002w0722ianjrz72', {
-  text: fText,
-  title: fTitle,
-  published: true,
-  owner: { connect: { id: 'ck6xsqqwj002w0722ianjrz72' } }
-}).catch(error => {
-  console.log(`error3: ${JSON.stringify(error, undefined, 2)}`);
-});
+const targetUser = 'ck6xtwcn9004m0722gqr1l41w';
+const commentCreatorID = '';
+// userCreateTweetThenListTweets(targetUser, {
+//   text: fText,
+//   title: fTitle,
+//   published: true,
+//   location: fLocation,
+//   owner: { connect: { id: targetUser } }
+// }).catch(error => {
+//   console.log(`error3: ${JSON.stringify(error, undefined, 2)}`);
+// });
+
+const commentForTargetTweetID = 'ck6ygb02j01og0722rpvyuh7s';
+const createComments = async (
+  commentCreatorID: string | number,
+  targetTweetID: string | number
+) => {
+  const createComments = await prisma.mutation
+    .createComment(
+      {
+        data: {
+          text: fText,
+          author: { connect: { id: commentCreatorID } },
+          tweet: { connect: { id: targetTweetID } }
+        }
+      },
+      '{ id text tweet { id title } }'
+    )
+    .then(rtComments => {
+      console.log(
+        `new comments for one tweet: ${JSON.stringify(
+          rtComments,
+          undefined,
+          2
+        )}`
+      );
+    })
+    .catch(error => {
+      console.log(`error comments: ${JSON.stringify(error, undefined, 2)}`);
+    });
+
+  return createComments;
+};
+// createComments('ck6xtv20d004h0722yz0pa5gp', commentForTargetTweetID);
 
 const createUser = async () => {
   const user = await prisma.mutation
