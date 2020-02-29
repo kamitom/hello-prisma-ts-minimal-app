@@ -6,7 +6,8 @@ type User {
   country: String @default(value: "UN")
   updatedAt: DateTime! @updatedAt
   createdAt: DateTime! @createdAt
-  tweets: [Tweet!]!
+  tweets: [Tweet!]! @relation(name: "TweetToUser", onDelete: CASCADE)
+  comments: [Comment!]! @relation(name: "CommentToUser", onDelete: CASCADE)
 }
  
 type Tweet {
@@ -16,8 +17,8 @@ type Tweet {
   title: String!
   text: String!
   published: Boolean!
-  owner: User! @relation(link: INLINE)
-  comments: [Comment!]
+  owner: User! @relation(name: "TweetToUser", onDelete: SET_NULL)
+  comments: [Comment!] @relation(name: "CommentToTweet", onDelete: CASCADE)
   location: String
 }
 
@@ -25,7 +26,7 @@ type Comment {
   id: ID! @id
   text: String!
   createdAt: DateTime! @createdAt
-  author: User! @relation(link: INLINE)
-  tweet: Tweet! @relation(link: INLINE)
+  author: User! @relation(name: "CommentToUser", onDelete: SET_NULL)
+  tweet: Tweet! @relation(name: "CommentToTweet", onDelete: SET_NULL)
 }
 

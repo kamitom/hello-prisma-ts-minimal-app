@@ -29,29 +29,24 @@ const testIfCommentExists = async (commentID: string) => {
 
 const createTweetForUser = async (uID: string | number, data: any) => {
   const userExists = await prisma.exists.User({ id: uID });
-  // console.log(`user exist: ${JSON.stringify(userExists)}`);
 
   if (!userExists) {
     throw new Error(`user ID: ${uID} NOT found.`);
   }
 
-  const test1 = await prisma.mutation.createTweet(
+  const tweetsResult = await prisma.mutation.createTweet(
     {
       data
     },
-    '{ id title text createdAt }'
+    '{ id title text createdAt owner { id name } }'
   );
 
-  const queryUser = await prisma.query.user(
-    { where: { id: uID } },
-    '{ id name tweets { title text location createdAt }}'
-  );
-  return queryUser;
+  return tweetsResult;
 };
 
 const commentCreatorID = '';
 
-const targetUser = 'ck6xtwcn9004m0722gqr1l41w--';
+const targetUser = 'ck6xtxpos004r0722t7z94byn';
 createTweetForUser(targetUser, {
   text: fText,
   title: fTitle,
@@ -59,8 +54,8 @@ createTweetForUser(targetUser, {
   location: fLocation,
   owner: { connect: { id: targetUser } }
 })
-  .then(user => {
-    console.log(`user : ${JSON.stringify(user, undefined, 2)}`);
+  .then(theTweet => {
+    console.log(`tweet info : ${JSON.stringify(theTweet, undefined, 2)}`);
   })
   .catch(error => {
     // console.log(`error3: ${JSON.stringify(error, undefined, 2)}`);
