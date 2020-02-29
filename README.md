@@ -7,7 +7,9 @@
 <div align="center"><strong>🚀 Bootstrap your GraphQL server within seconds</strong></div>
 <div align="center">Minimal starter kit for a flexible GraphQL server for TypeScript - based on best practices from the GraphQL community.</div>
 
-## my-step (graphql create hello-grqph-app1 typescript-minimal)
+## my-step (graphql create hello-graph-app1 typescript-minimal)
+> GitHub found 6 vulnerabilities on kamitom/hello-prisma-ts-minimal-app's default branch (3 high, 2 moderate, 1 low). To find out more, visit:
+>  https://github.com/kamitom/hello-prisma-ts-minimal-app/network/alerts
 
 ## Features
 
