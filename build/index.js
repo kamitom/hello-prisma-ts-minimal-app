@@ -15,9 +15,12 @@ const resolvers = {
         }
     }
 };
+const options = {
+    port: 4001
+};
 const server = new graphql_yoga_1.GraphQLServer({
     typeDefs,
     resolvers
 });
-server.start(() => console.log('Server is running on http://localhost:4000'));
+server.start(options, ({ port }) => console.log(`Server is running on http://localhost:${port}`));
 //# sourceMappingURL=index.js.map

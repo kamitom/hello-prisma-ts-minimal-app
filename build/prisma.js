@@ -36,7 +36,7 @@ const createTweetForUser = async (uID, data) => {
     return tweetsResult;
 };
 const commentCreatorID = '';
-const targetUser = 'ck6xtxpos004r0722t7z94byn';
+const targetUser = 'ck78fjnk6002y07145gxfphn5--';
 createTweetForUser(targetUser, {
     text: fText,
     title: fTitle,
@@ -51,7 +51,7 @@ createTweetForUser(targetUser, {
     // console.log(`error3: ${JSON.stringify(error, undefined, 2)}`);
     console.log(error.message);
 });
-const commentForTargetTweetID = 'ck6ygb02j01og0722rpvyuh7s';
+const commentForTargetTweetID = 'ck6ygb02j01og0722rpvyuh7s--';
 const createComments = async (commentCreatorID, targetTweetID) => {
     const createComments = await prisma.mutation
         .createComment({
