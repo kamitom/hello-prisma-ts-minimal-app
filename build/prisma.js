@@ -36,7 +36,7 @@ const createTweetForUser = async (uID, data) => {
     return tweetsResult;
 };
 const commentCreatorID = '';
-const targetUser = 'ck78fjnk6002y07145gxfphn5--';
+const targetUser = 'ck78j1frn00er0714uiwjfmxh';
 createTweetForUser(targetUser, {
     text: fText,
     title: fTitle,
